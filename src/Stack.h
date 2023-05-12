@@ -17,7 +17,13 @@ class Stack
   };
 
   Node *topNode;
+  size_t size;
 
 public:
-  Stack() : topNode(nullptr) {}
+  Stack() : topNode(nullptr), size{0} {}
+
+  bool isEmpty() const
+  {
+    return (topNode == nullptr);
+  }
 };
