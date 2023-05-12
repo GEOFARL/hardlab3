@@ -32,6 +32,7 @@ public:
     Node *newNode = new Node(element);
     newNode->next = topNode;
     topNode = newNode;
+    size += 1;
   }
 
   void pop()
@@ -41,6 +42,7 @@ public:
       Node *temp = topNode;
       topNode = topNode->next;
       delete temp;
+      size -= 1;
     }
     else
     {
@@ -71,4 +73,6 @@ public:
       throw runtime_error("Stack underflow: Stack is empty.")
     }
   }
+
+  size_t size() const { return size; }
 };
