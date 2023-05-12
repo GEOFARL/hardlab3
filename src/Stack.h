@@ -26,4 +26,11 @@ public:
   {
     return (topNode == nullptr);
   }
+
+  void push(const T &element)
+  {
+    Node *newNode = new Node(element);
+    newNode->next = topNode;
+    topNode = newNode;
+  }
 };
