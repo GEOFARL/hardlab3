@@ -47,4 +47,28 @@ public:
       throw runtime_error("Stack underflow: Cannot pop from an empty stack.")
     }
   }
+
+  T &top()
+  {
+    if (!isEmpty())
+    {
+      return topNode->data;
+    }
+    else
+    {
+      throw runtime_error("Stack underflow: Stack is empty.")
+    }
+  }
+
+  const T &top() const
+  {
+    if (!isEmpty())
+    {
+      return topNode->data;
+    }
+    else
+    {
+      throw runtime_error("Stack underflow: Stack is empty.")
+    }
+  }
 };
