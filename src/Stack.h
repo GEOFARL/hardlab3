@@ -33,4 +33,18 @@ public:
     newNode->next = topNode;
     topNode = newNode;
   }
+
+  void pop()
+  {
+    if (!isEmpty())
+    {
+      Node *temp = topNode;
+      topNode = topNode->next;
+      delete temp;
+    }
+    else
+    {
+      throw runtime_error("Stack underflow: Cannot pop from an empty stack.")
+    }
+  }
 };
