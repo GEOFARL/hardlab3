@@ -1,5 +1,10 @@
 #pragma once
 
+#include <iostream>
+#include <stdexcept>
+
+using namespace std;
+
 template <typename T>
 class Stack
 {
@@ -10,4 +15,9 @@ class Stack
 
     Node(const T &value) : data{value}, next{nullptr} {}
   };
+
+  Node *topNode;
+
+public:
+  Stack() : topNode(nullptr) {}
 };
