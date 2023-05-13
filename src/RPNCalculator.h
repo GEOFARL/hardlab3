@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <sstream>
 #include "Stack.h"
 
 class RPNCalculator
