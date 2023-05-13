@@ -3,6 +3,8 @@
 #include <string>
 #include <sstream>
 #include "Stack.h"
+#include "RPNUtils.h"
+#include "OperatorManager.h"
 
 class RPNCalculator
 {
