@@ -37,6 +37,10 @@ public:
 
     while (iss >> token)
     {
+      if (isOperator(token))
+      {
+        handleOperator(token, rpnExpression);
+      }
     }
   }
 
@@ -66,5 +70,10 @@ private:
   bool isOperator(const T &token)
   {
     return operators.find(token) != operators.end();
+  }
+
+  void handleOperator(const std::string &token, std::string &rpnExpression)
+  {
+    while (!stack.isEmpty() && isOperator(stack.top() &&))
   }
 };
