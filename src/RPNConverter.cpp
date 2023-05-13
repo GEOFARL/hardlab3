@@ -33,7 +33,7 @@ std::string RPNConverter::convertToRPN()
     {
       handleClosingParenthesis(rpnExpression);
     }
-    if (isNumeric(token) || isUnMinus)
+    if (RPNUtils::isNumeric(token) || isUnMinus)
     {
       if (isUnMinus)
       {
@@ -63,13 +63,6 @@ std::string RPNConverter::convertToRPN()
 bool RPNConverter::isUnaryMinus(const std::string &token)
 {
   return token == "u";
-}
-
-bool RPNConverter::isNumeric(const std::string &token)
-{
-  std::istringstream iss(token);
-  double value;
-  return iss >> value && iss.eof();
 }
 
 void RPNConverter::handleOperator(const std::string &token, std::string &rpnExpression)
