@@ -27,6 +27,7 @@ public:
   RPNConverter(const std::string &expr)
   {
     expression = removeWhiteSpaces(expr);
+    cout << expression << endl;
     initializeOperators();
   }
 
@@ -54,12 +55,20 @@ public:
       }
       else
       {
+        int nextChar = iss.peek();
+        while (nextChar != EOF && (std::isdigit(nextChar) || nextChar == '.'))
+        {
+          iss.get(character);
+          token += character;
+          nextChar = iss.peek();
+        }
         rpnExpression += token;
+        rpnExpression += " ";
       }
     }
     while (!stack.isEmpty())
     {
-      rpnExpression += stack.top();
+      rpnExpression += stack.top() + " ";
       stack.pop();
     }
     return rpnExpression;
@@ -97,7 +106,7 @@ private:
   {
     while (!stack.isEmpty() && isOperator(stack.top()) && hasLargerPrecedence(stack.top(), token))
     {
-      rpnExpression += stack.top();
+      rpnExpression += stack.top() + " ";
       stack.pop();
     }
     stack.push(token);
@@ -124,7 +133,7 @@ private:
   {
     while (!stack.isEmpty() && stack.top() != "(")
     {
-      rpnExpression += stack.top();
+      rpnExpression += stack.top() + " ";
       stack.pop();
     }
     if (!stack.isEmpty() && stack.top() == "(")
