@@ -5,6 +5,7 @@
 #include "Operator.h"
 #include "TokenParser.h"
 #include "OperatorManager.h"
+#include "RPNUtils.h"
 
 class RPNConverter
 {
@@ -18,7 +19,6 @@ public:
 
 private:
   bool isUnaryMinus(const std::string &);
-  bool isNumeric(const std::string &);
 
   void handleOperator(const std::string &, std::string &);
   void handleClosingParenthesis(std::string &);
