@@ -24,6 +24,8 @@ double RPNCalculator::calculate(const std::string &rpnExpression)
       operands.push(result);
     }
   }
+
+  return operands.top();
 }
 
 double RPNCalculator::performOperation(const std::string &token, double operand1, double operand2)
