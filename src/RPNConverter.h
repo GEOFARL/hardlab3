@@ -53,6 +53,14 @@ public:
       {
         rpnExpression += token;
       }
+
+      while (!stack.isEmpty())
+      {
+        rpnExpression += stack.top();
+        stack.pop();
+      }
+
+      return rpnExpression;
     }
   }
 
