@@ -11,6 +11,7 @@ struct Operator
   int precedence;
   bool isLeftAssociative;
 
+  Operator() = default;
   Operator(const std::string &sym, int prec, bool isLeftAssoc)
       : symbol(sym), precedence{prec}, isLeftAssociative{isLeftAssoc} {}
 };
@@ -33,10 +34,12 @@ public:
   {
     std::string rpnExpression;
     std::istringstream iss{expression};
+    char character;
     std::string token;
 
-    while (iss >> token)
+    while (iss.get(character))
     {
+      token = character;
       if (isOperator(token))
       {
         handleOperator(token, rpnExpression);
@@ -53,15 +56,13 @@ public:
       {
         rpnExpression += token;
       }
-
-      while (!stack.isEmpty())
-      {
-        rpnExpression += stack.top();
-        stack.pop();
-      }
-
-      return rpnExpression;
     }
+    while (!stack.isEmpty())
+    {
+      rpnExpression += stack.top();
+      stack.pop();
+    }
+    return rpnExpression;
   }
 
 private:
@@ -87,7 +88,7 @@ private:
     operators.emplace("^", Operator("^", 4, false));
   }
 
-  bool isOperator(const T &token)
+  bool isOperator(const std::string &token)
   {
     return operators.find(token) != operators.end();
   }
