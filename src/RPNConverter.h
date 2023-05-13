@@ -19,7 +19,7 @@ template <typename T>
 class RPNConverter
 {
   std::string expression;
-  Stack<T> stack;
+  Stack<std::string> stack;
   std::unordered_map<std::string, Operator> operators;
 
 public:
@@ -74,7 +74,12 @@ private:
 
   void handleOperator(const std::string &token, std::string &rpnExpression)
   {
-    while (!stack.isEmpty() && isOperator(stack.top() &&))
+    while (!stack.isEmpty() && isOperator(stack.top()) && hasLargerPrecedence(stack.top(), token))
+    {
+      rpnExpression += stack.top();
+      stack.pop();
+    }
+    stack.push(token);
   }
 
   bool hasLargerPrecedence(const std::string &op1, const std::string &op2)
