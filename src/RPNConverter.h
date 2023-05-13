@@ -1,34 +1,21 @@
-#include <iostream>
 #include <string>
 #include <sstream>
 #include <ctype.h>
-#include <unordered_map>
 #include "Stack.h"
+#include "Operator.h"
+#include "TokenParser.h"
+#include "OperatorManager.h"
 
-struct Operator
-{
-  std::string symbol;
-  int precedence;
-  bool isLeftAssociative;
-
-  Operator() = default;
-  Operator(const std::string &sym, int prec, bool isLeftAssoc)
-      : symbol(sym), precedence{prec}, isLeftAssociative{isLeftAssoc} {}
-};
-
-template <typename T>
 class RPNConverter
 {
   std::string expression;
   Stack<std::string> stack;
-  std::unordered_map<std::string, Operator> operators;
 
 public:
-  RPNConverter(const std::string &expr)
+  RPNConverter(const std::string &expr) : expression(expr)
   {
-    expression = removeWhiteSpaces(expr);
-    expression = replaceUnaryMinuses(expression);
-    initializeOperators();
+    expression = TokenParser::removeWhiteSpaces(expression);
+    expression = TokenParser::replaceUnaryMinuses(expression);
   }
 
   std::string convertToRPN()
@@ -46,7 +33,7 @@ public:
       {
         isUnMinus = true;
       }
-      else if (isOperator(token))
+      else if (OperatorManager::isOperator(token))
       {
         handleOperator(token, rpnExpression);
       }
@@ -86,54 +73,6 @@ public:
   }
 
 private:
-  std::string removeWhiteSpaces(const std::string &expr)
-  {
-    std::stringstream ss;
-    for (char c : expr)
-    {
-      if (!std::isspace(c))
-      {
-        ss << c;
-      }
-    }
-    return ss.str();
-  }
-
-  std::string replaceUnaryMinuses(const std::string &expr)
-  {
-    std::string result = expr;
-
-    for (size_t i = 0; i < result.length(); ++i)
-    {
-      if (result[i] == '-')
-      {
-        // Check if the minus sign is unary
-        bool isUnaryMinus = (i == 0) || (result[i - 1] == '(') || (result[i - 1] == '+') || (result[i - 1] == '-') || (result[i - 1] == '*') || (result[i - 1] == '/');
-
-        if (isUnaryMinus)
-        {
-          result[i] = 'u';
-        }
-      }
-    }
-
-    return result;
-  }
-
-  void initializeOperators()
-  {
-    operators.emplace("+", Operator("+", 2, true));
-    operators.emplace("-", Operator("-", 2, true));
-    operators.emplace("*", Operator("*", 3, true));
-    operators.emplace("/", Operator("/", 3, true));
-    operators.emplace("^", Operator("^", 4, false));
-  }
-
-  bool isOperator(const std::string &token)
-  {
-    return operators.find(token) != operators.end();
-  }
-
   bool isUnaryMinus(const std::string &token)
   {
     return token == "u";
@@ -148,7 +87,7 @@ private:
 
   void handleOperator(const std::string &token, std::string &rpnExpression)
   {
-    while (!stack.isEmpty() && isOperator(stack.top()) && hasLargerPrecedence(stack.top(), token))
+    while (!stack.isEmpty() && OperatorManager::isOperator(stack.top()) && hasLargerPrecedence(stack.top(), token))
     {
       rpnExpression += stack.top() + " ";
       stack.pop();
@@ -158,19 +97,19 @@ private:
 
   bool hasLargerPrecedence(const std::string &op1, const std::string &op2)
   {
-    const Operator &operator1 = operators[op1];
-    const Operator &operator2 = operators[op2];
+    const Operator &operator1 = OperatorManager::getOperator(op1);
+    const Operator &operator2 = OperatorManager::getOperator(op2);
 
-    if (operator1.precedence > operator2.precedence)
+    if (operator1.getPrecedence() > operator2.getPrecedence())
     {
       return true;
     }
-    if (operator1.precedence < operator2.precedence)
+    if (operator1.getPrecedence() < operator2.getPrecedence())
     {
       return false;
     }
 
-    return operator1.isLeftAssociative;
+    return operator1.isLeftAssociative();
   }
 
   void handleClosingParenthesis(std::string &rpnExpression)
