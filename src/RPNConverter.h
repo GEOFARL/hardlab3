@@ -62,4 +62,9 @@ private:
     operators.emplace("/", Operator("/", 3, true));
     operators.emplace("^", Operator("^", 4, false));
   }
+
+  bool isOperator(const T &token)
+  {
+    return operators.find(token) != operators.end();
+  }
 };
