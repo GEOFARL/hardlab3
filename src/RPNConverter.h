@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include <sstream>
+#include <ctype.h>
 #include "Stack.h"
 
 struct Operator
@@ -21,5 +23,21 @@ class RPNConverter
 public:
   RPNConverter(const std::string &expr)
   {
+    expression = removeWhiteSpaces(expr);
+    cout << expression << endl;
+  }
+
+private:
+  std::string removeWhiteSpaces(const std::string &expr)
+  {
+    std::stringstream ss;
+    for (char c : expr)
+    {
+      if (!std::isspace(c))
+      {
+        ss << c;
+      }
+    }
+    return ss.str();
   }
 };
