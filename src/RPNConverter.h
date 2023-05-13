@@ -29,6 +29,17 @@ public:
     initializeOperators();
   }
 
+  std::string convertToRPN()
+  {
+    std::string rpnExpression;
+    std::istringstream iss{expression};
+    std::string token;
+
+    while (iss >> token)
+    {
+    }
+  }
+
 private:
   std::string removeWhiteSpaces(const std::string &expr)
   {
