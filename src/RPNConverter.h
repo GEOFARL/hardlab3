@@ -76,4 +76,21 @@ private:
   {
     while (!stack.isEmpty() && isOperator(stack.top() &&))
   }
+
+  bool hasLargerPrecedence(const std::string &op1, const std::string &op2)
+  {
+    const Operator &operator1 = operators[op1];
+    const Operator &operator2 = operators[op2];
+
+    if (operator1.precedence > operator2.precedence)
+    {
+      return true;
+    }
+    if (operator1.precedence < operator2.precedence)
+    {
+      return false;
+    }
+
+    return operator1.isLeftAssociative;
+  }
 };
