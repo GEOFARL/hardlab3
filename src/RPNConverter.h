@@ -107,5 +107,16 @@ private:
     return operator1.isLeftAssociative;
   }
 
-  void handleClosingParenthesis(std::string &rpnExpression);
+  void handleClosingParenthesis(std::string &rpnExpression)
+  {
+    while (!stack.isEmpty() && stack.top() != "(")
+    {
+      rpnExpression += stack.top();
+      stack.pop();
+    }
+    if (!stack.isEmpty() && stack.top() == "(")
+    {
+      stack.pop();
+    }
+  }
 };
