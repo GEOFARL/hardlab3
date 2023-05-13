@@ -49,6 +49,10 @@ public:
       {
         handleClosingParenthesis(rpnExpression);
       }
+      else
+      {
+        rpnExpression += token;
+      }
     }
   }
 
