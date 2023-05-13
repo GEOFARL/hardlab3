@@ -46,7 +46,7 @@ public:
     }
     else
     {
-      throw runtime_error("Stack underflow: Cannot pop from an empty stack.")
+      throw runtime_error("Stack underflow: Cannot pop from an empty stack.");
     }
   }
 
@@ -58,7 +58,7 @@ public:
     }
     else
     {
-      throw runtime_error("Stack underflow: Stack is empty.")
+      throw runtime_error("Stack underflow: Stack is empty.");
     }
   }
 
@@ -70,9 +70,9 @@ public:
     }
     else
     {
-      throw runtime_error("Stack underflow: Stack is empty.")
+      throw runtime_error("Stack underflow: Stack is empty.");
     }
   }
 
-  size_t size() const { return size; }
+  size_t getSize() const { return size; }
 };
