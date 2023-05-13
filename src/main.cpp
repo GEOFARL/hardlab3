@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
   }
   try
   {
-    float result = calculate<float>(string{argv[1]});
+    double result = calculate(string{argv[1]});
     cout << "Result: " << result << endl;
   }
   catch (const exception &e)
