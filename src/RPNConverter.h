@@ -41,6 +41,14 @@ public:
       {
         handleOperator(token, rpnExpression);
       }
+      else if (token == "(")
+      {
+        stack.push(token);
+      }
+      else if (token == ")")
+      {
+        handleClosingParenthesis(rpnExpression);
+      }
     }
   }
 
@@ -98,4 +106,6 @@ private:
 
     return operator1.isLeftAssociative;
   }
+
+  void handleClosingParenthesis(std::string &rpnExpression);
 };
