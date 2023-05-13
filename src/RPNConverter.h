@@ -28,7 +28,6 @@ public:
   {
     expression = removeWhiteSpaces(expr);
     expression = replaceUnaryMinuses(expression);
-    cout << expression << endl;
     initializeOperators();
   }
 
@@ -42,7 +41,12 @@ public:
     while (iss.get(character))
     {
       token = character;
-      if (isOperator(token))
+      bool isUnMinus{false};
+      if (isUnaryMinus(token))
+      {
+        isUnMinus = true;
+      }
+      else if (isOperator(token))
       {
         handleOperator(token, rpnExpression);
       }
@@ -54,17 +58,23 @@ public:
       {
         handleClosingParenthesis(rpnExpression);
       }
-      else
+      if (isNumeric(token) || isUnMinus)
       {
+        if (isUnMinus)
+        {
+          // Unary minus token is in the form of 'u'
+          token = "-";
+        }
         int nextChar = iss.peek();
+
+        // Get the remaining of the number
         while (nextChar != EOF && (std::isdigit(nextChar) || nextChar == '.'))
         {
           iss.get(character);
           token += character;
           nextChar = iss.peek();
         }
-        rpnExpression += token;
-        rpnExpression += " ";
+        rpnExpression += token + " ";
       }
     }
     while (!stack.isEmpty())
@@ -122,6 +132,18 @@ private:
   bool isOperator(const std::string &token)
   {
     return operators.find(token) != operators.end();
+  }
+
+  bool isUnaryMinus(const std::string &token)
+  {
+    return token == "u";
+  }
+
+  bool isNumeric(const std::string &token)
+  {
+    std::istringstream iss(token);
+    double value;
+    return iss >> value && iss.eof();
   }
 
   void handleOperator(const std::string &token, std::string &rpnExpression)
